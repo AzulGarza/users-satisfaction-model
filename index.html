@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script>
+
+
+      async function my_model() {
+          const model = await tf.loadModel('user_satisfaction_network/model.json');
+      }
+
+      var mean_test = [];
+      var mean_test_tensor = [];
+
+      d3.csv("mean_test.csv").then(function(data){
+
+          data.map(function(d){
+            mean_test.push(+d.value);
+          });
+          mean_test_tensor = tf.tensor(mean_test, [1, mean_test.length]);
+          const model = my_model();
+          console.log(model.predict(mean_test_tensor))
+      });
+    </script>
+  </head>
+
+  <body>
+  </body>
+</html>
